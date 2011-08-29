@@ -1,0 +1,75 @@
+import java.io.*;
+import java.util.*;
+import org.jboss.maven.plugin.resolver.ResolverMojo;
+
+String version = "1.2_3-TEST";
+
+String[] paths =
+{
+    "some/test/application",
+    "some/test/application/4_5",
+    "some/test/application/4_5/four_test",
+    "some/test/application/4_5/four_test/five",
+    "some/test/application/4_5/four_test/five/six",
+    "some/test/application/4_5/four_test/five/six/jar4_jar",
+    "some/test/application/4_5/four_test/five/jar2_jar",
+    "some/test/application/4_5/four_test/five/jar3_jar",
+    "some/test/application/4_5/four_test/jar5_jar",
+    "some/test/application/4_5/one",
+    "some/test/application/4_5/one/jar2_jar",
+    "some/test/application/4_5/one/jar3_jar",
+    "some/test/application/4_5/seven-eight_ten",
+    "some/test/application/4_5/seven-eight_ten/jar2_jar",
+    "some/test/application/4_5/seven-eight_ten/jar3_jar",
+    "some/test/application/4_5/two_sar",
+    "some/test/application/4_5/two_sar/jar4_jar",
+    "some/test/application/4_5/jar1",
+    "some/test/application/4_5/jar1/jar7_jar",
+    "some/test/application/4_5/jar1_jar",
+    "some/test/application/4_5/jar2_jar",
+    "some/test/application/4_5/jar2_jar/jar1_jar"
+    
+};
+
+for ( String path : paths )
+{
+
+	File file = new File( localRepositoryPath, path );
+
+	System.out.print("Checking module [" + file.getAbsolutePath() + "] ... ");
+
+	try {
+
+	    if ( !file.isDirectory() )
+	        throw new FileNotFoundException( "Missing file [" + file.getAbsolutePath() + "]" );
+	
+		file = new File( file, version );    
+	    if ( !file.isDirectory() )
+	        throw new FileNotFoundException( "Missing file [" + file.getAbsolutePath() + "]" );
+	
+		String fileRoot = file.getParentFile().getName() + "-" + version;
+		File pomfile = new File( file, fileRoot + ResolverMojo.POM_SEP + ResolverMojo.POM_TYPE );  
+		if ( !pomfile.isFile() )    
+	        throw new FileNotFoundException( "Missing file [" + pomfile.getAbsolutePath() + "]" );
+	        
+		boolean artifactFileFound = false;
+		for (ResolverMojo.POM_TYPES type : ResolverMojo.POM_TYPES.values()) {
+			if (new File(file, fileRoot + ResolverMojo.POM_SEP + type).exists()) {
+				artifactFileFound = true;
+				break;
+			}
+		}
+		if (!artifactFileFound)
+			throw new FileNotFoundException("Missing file with artifact prefix ["
+					+ new File(file, fileRoot) + "]");
+	}
+	catch(Exception e) {
+		System.out.println("failed");
+		throw e;
+	}
+
+	System.out.println("complete");
+
+}
+
+return true;

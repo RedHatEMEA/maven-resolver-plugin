@@ -1,0 +1,29 @@
+-------------------------------------------------------------------------------
+- 
+- Issues
+-
+-------------------------------------------------------------------------------
+
+- Port to clusterinfo and all other projects
+- Make fast - parrell processing, excludes to work intelligently, do not stage uncessairly, blacklist files, turn off logging
+- Deal with other types - WARS/EARS/SARS
+
+- Fit out clusterinfo
+- extract and consume
+
+- Herarchical jars - provide overlays in pom form for seam/rules etc
+- Use classifer  version
+- Niver Dummy jar - perhaps no jar?
+- Look up deps from within plugin for invoker and DummyClass
+- Rename plugin?
+- Full it coverage, test for each param and boundary case
+- Doc/Javadoc
+- Ignore list?
+- List of directories to process
+- Reg Exp to choose version, prefix and mask from directory
+- Skip of its to work
+- Directory permissions
+- Version and other params defined once and replaced for its?
+- Make archetype nicer, manual invocation
+- Import/Export function for dependant projects
+- Update terminoligy - module, model, artifact

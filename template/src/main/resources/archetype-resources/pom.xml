@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>${artifactId}</name>
+	<artifactId>${artifactId}</artifactId>
+	<groupId>${groupId}</groupId>
+	<version>${version}</version>
+	<packaging>jar</packaging>
+	<description>Maven module resolver</description>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jboss.maven.plugin.resolver</groupId>
+				<artifactId>plugin</artifactId>
+				<configuration>
+					<rootDir>/opt/jboss/enterprise</rootDir>
+					<versionRegExp>[^/]*/[^/]*/([^/]*)/.*</versionRegExp>
+					<groupMaskRegExp>([^/]*/[^/]*/)[^/]*/(.*)</groupMaskRegExp>
+					<excludeRegExp>/samples|/examples|/docs|/tmp|/temp|/work</excludeRegExp>
+					<repositoryId>thirdparty</repositoryId>
+					<repositoryUrl>http://mavenrepo/nexus/content/repositories/thirdparty</repositoryUrl>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

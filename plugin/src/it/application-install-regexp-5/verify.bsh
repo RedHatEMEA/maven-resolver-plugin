@@ -1,0 +1,100 @@
+import java.io.*;
+import java.util.*;
+import org.jboss.maven.plugin.resolver.ResolverMojo;
+
+String version = "4.5";
+
+String[] paths =
+{
+    "regexp-5/test/four_test",
+    "regexp-5/test/four_test/five",
+    "regexp-5/test/four_test/five/six",
+    "regexp-5/test/four_test/five/six/jar4_jar",
+    "regexp-5/test/four_test/five/jar2_jar",
+    "regexp-5/test/four_test/five/jar3_jar",
+    "regexp-5/test/four_test/jar5_jar",
+    "regexp-5/test/seven-eight_ten",
+    "regexp-5/test/seven-eight_ten/jar2_jar",
+    "regexp-5/test/seven-eight_ten/jar3_jar",
+    "regexp-5/test/jar1",
+    "regexp-5/test/jar1/jar7_jar",
+    "regexp-5/test/jar1_jar",
+    "regexp-5/test/jar2_jar",
+    "regexp-5/test/jar2_jar/jar1_jar"
+    
+};
+
+String[] pathsDoNotExist = 
+{
+    "regexp-5/test/one",
+    "regexp-5/test/one/jar2_jar",
+    "regexp-5/test/one/jar3_jar",
+    "regexp-5/test/two_sar",
+    "regexp-5/test/two_sar/jar4_jar"
+};
+
+for ( String path : paths )
+{
+
+	File file = new File( localRepositoryPath, path );
+
+	System.out.print("Checking module [" + file.getAbsolutePath() + "] ... ");
+
+	try {
+
+	    if ( !file.isDirectory() )
+	        throw new FileNotFoundException( "Missing file [" + file.getAbsolutePath() + "]" );
+	
+		file = new File( file, version );    
+	    if ( !file.isDirectory() )
+	        throw new FileNotFoundException( "Missing file [" + file.getAbsolutePath() + "]" );
+	
+		String fileRoot = file.getParentFile().getName() + "-" + version;
+		File pomfile = new File( file, fileRoot + ResolverMojo.POM_SEP + ResolverMojo.POM_TYPE );  
+		if ( !pomfile.isFile() )    
+	        throw new FileNotFoundException( "Missing file [" + pomfile.getAbsolutePath() + "]" );
+	        
+		boolean artifactFileFound = false;
+		for (ResolverMojo.POM_TYPES type : ResolverMojo.POM_TYPES.values()) {
+			if (new File(file, fileRoot + ResolverMojo.POM_SEP + type).exists()) {
+				artifactFileFound = true;
+				break;
+			}
+		}
+		if (!artifactFileFound)
+			throw new FileNotFoundException("Missing file with artifact prefix ["
+					+ new File(file, fileRoot) + "]");
+	}
+	catch(Exception e) {
+		System.out.println("failed");
+		throw e;
+	}
+
+	System.out.println("complete");
+
+}
+
+for ( String path : pathsDoNotExist )
+{
+
+	File file = new File( localRepositoryPath, path );
+
+	System.out.print("Checking module [" + file.getAbsolutePath() + "] ... ");
+
+	try {
+
+	    if ( file.exists() )
+	        throw new FileNotFoundException( "Found file [" + file.getAbsolutePath() + "]" );
+	
+
+	}
+	catch(Exception e) {
+		System.out.println("failed");
+		throw e;
+	}
+
+	System.out.println("complete");
+
+}
+
+return true;

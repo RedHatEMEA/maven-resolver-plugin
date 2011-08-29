@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.jboss.maven.plugin.resolver.plugin.its</groupId>
+	<artifactId>application-install-prefix-3</artifactId>
+	<version>1.0</version>
+	<packaging>jar</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jboss.maven.plugin.resolver</groupId>
+				<artifactId>plugin</artifactId>
+				<version>@project.version@</version>
+				<configuration>
+					<rootDir>../../../src/it/application-repository</rootDir>
+					<versionRegExp>1.2_3-TEST</versionRegExp>
+					<groupPrefix>some.test.</groupPrefix>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>install</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

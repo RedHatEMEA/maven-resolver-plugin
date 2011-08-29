@@ -1,0 +1,9 @@
+import java.io.*;
+import java.util.*;
+import org.jboss.maven.plugin.resolver.ResolverMojo;
+
+File file = new File( localRepositoryPath, "regexp-2" );
+if ( file.exists() && file.isDirectory() )
+    throw new FileNotFoundException( "Skip failed, found: " + file.getAbsolutePath() + "]" );
+
+return true;

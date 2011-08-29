@@ -1,0 +1,1 @@
+This is a purposely sparse JAR file, intended to be used as a place holder for runtime provided, composite dependencies
